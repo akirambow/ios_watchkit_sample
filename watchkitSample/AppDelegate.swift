@@ -18,6 +18,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         return true
     }
+    
+    func application(application: UIApplication,
+        handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?,
+        reply: (([NSObject : AnyObject]!) -> Void)!) {
+            
+            var countValue:Int = 0
+            
+            if userInfo != nil {
+                countValue = userInfo!["onTappedCount"] as! Int
+                //println("App : countVale=\(countValue)")
+                
+                var appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+                var mainViewController = appDel.window?.rootViewController as? ViewController
+                
+                mainViewController?.updateHeadLabel(countValue)
+            }
+            else {
+                // println("App : userInfo is nil")
+            }
+            
+            reply(["fromApp":"reply from AppDelegate"])
+    }
+
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
